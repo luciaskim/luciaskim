@@ -6,7 +6,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.7",
+    "esbuild": "^0.17.18",
+    "gray-matter": "^4.0.3",
+    "mdx-bundler": "^9.2.1",
     "next": "latest",
+    "next-mdx-remote": "^4.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }

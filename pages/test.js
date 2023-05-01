@@ -15,7 +15,7 @@ export const getStaticProps = async () => {
 };
 
 
-export default function Home({ allPostsData }) {
+export default function Home({}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -29,19 +29,6 @@ export default function Home({ allPostsData }) {
         <p className={styles.description}>
           Have a look at my most recent posts
         </p>
-        <section>
-          <ul>
-            {allPostsData.map(({ id, publishedAt, title }) => (
-              <li key={id}>
-                <Link href={`/posts/${id}`}>{title}</Link>
-                <br />
-                <small>
-                  <Date dateString={publishedAt} />
-                </small>
-              </li>
-            ))}
-          </ul>
-        </section>
 {/*       
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

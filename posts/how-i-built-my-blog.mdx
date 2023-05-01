@@ -1,0 +1,79 @@
+---
+title: How I Built My Blog Using Next.js, Vercel, and MDX
+abstract: A guide to building a blog using Next.js, Vercel, and MDX
+tags: ["javascript", "next.js", "mdx"]
+public: true
+publishedAt: "2023-04-30T15:00:00Z"
+layout: Article
+---
+
+## Why Next.js, Vercel, and MDX
+I chose Next.js to create my website because of its speed, and Vercel to host my blog because it is from the same developers as Next.js. I chose to write my content in MDX, rather than a separate content management system (SNS).
+
+When I first created a blog, I used Sanity.io as a headless CMS. However, the text editor was slow when writing pages over 30,000 characters and customising images was a hassle. Having a simple MDX file allows me to focus on the content.
+
+
+## Introducing MDX
+### What is MDX?
+Markdown is a markdown language which allows you to format text. MDX combines Markdown and JSX, allowing you to write content and code at the same time.
+
+### MDX Packages
+There are three main methods to use MDX with Next.js
+1.  `@next/mdx` 
+2. `next-mdx-remote`
+3. `mdx-bundler`
+I chose `mdx-bundler` because it can use frontmatter and I did not want to import my components for every MDX file. `mdx-bundler` uses `esbuild.`
+
+
+## How the blog works
+
+Here is my directory structure:
+
+```
+luciaskim.com
++---components
++---lib
+|   |   posts.js
++---pages
+|   index.js
+|   +---posts
+|   |   [id].js
++---posts
++---public
++---styles
++---node_modules
+```
+
+
+## Deploying to Vercel
+
+## Guides
+https://blog.logrocket.com/create-next-js-mdx-blog/
+1. Uses meta (for browser), which is separate from gray-matter (for user)
+2. Create component which sets a variable as a constant, export the constant to be used in other files
+3. `Disclosure componenet`
+4. Global and static HTML
+5. Custom components using `MDXComponenents`
+6. API routes
+
+
+https://dev.to/tylerlwsmith/quick-comparison-of-mdx-integration-strategies-with-next-js-1kcm
+load the `serialize` function and `<MDXRemote />` component on any page you want to use it in.
+
+
+`npm install mdx-bundler esbuild`
+https://www.iamyadav.com/blogs/use-mdx-bundler-with-next-js
+
+https://www.codeconcisely.com/posts/nextjs-mdx/
+remark and rehype
+
+
+
+## Helper functions
+Helper function to create an array of slugs and render the remark/rehype are written in this file. Creating a helper function increases reusability because the same function does not have to be written for every file. I can also seperate the content from the code when writing my blog posts.
+
+
+Key features
+1. Get all filenames from the currend director
+2. For each filename, create an object `params` with a single property `slug`. The slug is the filename without the .mdx extension
+3. Sort array by date
