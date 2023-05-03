@@ -2,6 +2,7 @@
 title: How I Built My Blog Using Next.js, Vercel, and MDX
 abstract: A guide to building a blog using Next.js, Vercel, and MDX
 tags: ["javascript", "next.js", "mdx"]
+category: "development"
 public: true
 publishedAt: "2023-04-30T15:00:00Z"
 layout: Article
@@ -44,36 +45,78 @@ luciaskim.com
 +---node_modules
 ```
 
+ The `lib` directory contains functions that can be used throughout the blog. It is also commonly named as `utils`.
+
+`post.js` contains the helper function to render the blog posts. 
+
+There are currently 3 import functions:
+1. `getAllPostIds()` creates an array of id. For each file in the `posts' directory, a slug is generated from the filename and is stored as id.
+2. `getSortedPostsData()` creates an array containing the id and the frontmatter, sorted by publish date.
+3. `getPostData(id)` returns the id, frontmatter, and content of the mdx file specified by the id
+
+The `pages` directory render the log. The `public` directory contains images. The `styles` directory contains CSS.
+
+### How to write an article
+
+To write a new article, create a new mdx file in the `posts` directory. The frontmatter is:
+
+```
+---
+title:
+abstract: 
+tags: [""]
+category: "development"
+public: true
+publishedAt: "2023-04-30T15:00:00Z"
+layout: Article
+---
+
+Write content here!
+```
+
+
 
 ## Deploying to Vercel
+1. Push the blog folder to a remote repository
+2. Connect Vercel to GitHub
+3. Deploy
+4. Link to my custom domain luciaskim.com
 
-## Guides
+
+
+## Difficulties and moving forward
+
+### T
+The most difficult aspect of creating my blog was combining different guides. Because the official tutorial does not implement MDX, I had to look at several other tutorials and combine the best advices from all of them. Choosing the most relevant structure took the longest time.
+
+In the end, I combined three tutorials:
+1. Official Next.js tutorial
+2. 
+3. 
+
+I tried to follow the official tutorial for the function and variable names. I had to fully understand the code structure to identify duplicate code and name changes.
+
+Here are the list of 
+
 https://blog.logrocket.com/create-next-js-mdx-blog/
 1. Uses meta (for browser), which is separate from gray-matter (for user)
 2. Create component which sets a variable as a constant, export the constant to be used in other files
 3. `Disclosure componenet`
 4. Global and static HTML
-5. Custom components using `MDXComponenents`
+5. Custom components using `MDXComponents`
 6. API routes
 
-
-https://dev.to/tylerlwsmith/quick-comparison-of-mdx-integration-strategies-with-next-js-1kcm
-load the `serialize` function and `<MDXRemote />` component on any page you want to use it in.
-
-
-`npm install mdx-bundler esbuild`
 https://www.iamyadav.com/blogs/use-mdx-bundler-with-next-js
 
 https://www.codeconcisely.com/posts/nextjs-mdx/
-remark and rehype
 
 
+### What to do next
 
-## Helper functions
-Helper function to create an array of slugs and render the remark/rehype are written in this file. Creating a helper function increases reusability because the same function does not have to be written for every file. I can also seperate the content from the code when writing my blog posts.
+Here are the things I want to do for my blog:
+1. Nest the posts by category so that the posts have the url `luciaskim.com/category/slug`
+2. Mindmap of categories in the home page
 
 
-Key features
-1. Get all filenames from the currend director
-2. For each filename, create an object `params` with a single property `slug`. The slug is the filename without the .mdx extension
-3. Sort array by date
+## Guides
+
