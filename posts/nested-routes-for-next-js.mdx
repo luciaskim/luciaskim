@@ -1,0 +1,150 @@
+---
+title: How to Create Dynamic Nested Routes for Next.js
+abstract: A guide to creating dynamic nested routes based on the frontmatter for Next.js
+tags: ["javascript", "next.js", "next.js"]
+category: "development"
+public: true
+publishedAt: "2023-05-04T15:00:00Z"
+layout: Article
+---
+
+## Why nested routes?
+Nested routes allows a cleaner user experience. The path to the file is illustrated in the url. Having the category in the url would organise my blog. 
+
+
+My blog needs to have the route form `pages/[category]/[id].js`. Furthermore, I would like to have the category dynamically created from the frontmatter.
+
+
+## Dynamic directory routing: step by step
+
+### Create a `[category]` directory in `/pages`
+Next.js renders the blog content from the `/pages` directory. To create a subroute, create a new directory inside the `/pages` directory. Because the content of the category is changed, I need to use square brackets `[]` to indicate dynamic routes.
+
+In order for the dynamic folder to function properly, the `category` must be proviede in the params of `getStaticPaths()`.
+
+
+### Create `getAllPostPaths()` function
+The function provides data to `getStaticPaths()`. I need to supply the category from the frontmatter to create the dynamic route.
+
+The original function `getAllPostIds` outputs:
+```
+[
+  { params: { id: 'how-i-built-my-blog' } },
+  { params: { id: 'nested-routes-for-next-js' } }
+]
+```
+
+
+I created a new function 'getAllPostPaths()' so that the category is included in the params. When `matter(filpath)`, JSON data is returned so that the content and front matter are separated. The front matter under `data`. To use aspects of the frontmatter, we need to look inside `data`.
+```
+\\ \lib\posts.js
+export function getAllPostPaths() {
+  // Creates an array of object that has a params key
+  const fileNames = fs.readdirSync(postsDirectory);
+  return fileNames.map((fileName) => {
+    const id = fileName.replace(/\.mdx$/, '');
+    // Read markdown file as string
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+    // Use gray-matter to parse the post metadata section
+    const matterResult = matter(fileContents);
+    const category = matterResult.data.category
+    return {
+      params: {
+        id,
+        category
+      },
+    };
+  });
+}
+```
+
+Restart the development server so that the function can be imported.
+
+### Update `getStaticPaths()`
+I first moved the `[id].js` file to the `[category]` directory. Then I imported `getAllPostPaths()` and updated the `getStaticPaths()` function.
+```
+\\ \pages\[category]\[id].js
+
+import React, { useMemo } from "react";
+import { getMDXComponent } from "mdx-bundler/client";
+import { getAllPostPaths, getPostData } from "../../lib/posts";
+import Date from "../../components/date";
+
+export async function getStaticPaths() {
+  const paths = getAllPostPaths();
+  return {
+    paths,
+    fallback: false,
+  };
+}
+```
+
+`getStaticProps()` do not need to be changes as the id is used to generate the page.
+
+
+### Updated links on `\index.js`
+
+I need to include the category in the links so that the pages are correctly routed.
+
+```
+\\ \index.js
+<section>
+  <ul>
+    {allPostsData.map(({ id, category, publishedAt, title }) => (
+      <li key={id}>
+        <Link href={`/${category}/${id}`}>{title}</Link>
+        <br />
+        <small>
+          <Date dateString={publishedAt} />
+        </small>
+      </li>
+    ))}
+  </ul>
+</section>
+
+```
+
+## Preliminary research
+Here is the [documentation on Dynamic Routes](https://nextjs.org/docs/routing/dynamic-routes). 
+
+**React Tutorials**
+Here are the tutorials on nested routes for React. 
+1. ["Understanding Nested Routing in React" by Kingsley Ubah](https://code.tutsplus.com/tutorials/understanding-nested-routing-in-react--cms-27955)
+2. ["React Router 6: Nested Routes" by Robin Wieruch](https://www.robinwieruch.de/react-router-nested-routes/)
+
+**Stack Overflow**
+["How to display Markdown files in nested folders in Next.JS?"](https://stackoverflow.com/questions/69122134/how-to-display-markdown-files-in-nested-folders-in-next-js) 
+Has a separate directory for each category.
+
+```js
+const glob = require('glob');
+
+glob('posts/**/*.md', (err, files) => {
+    console.log({files});
+
+    /*
+     * will produce:
+     * {
+     *     files: [
+     *       'posts/CategoryOne/markdown-one-1.md',
+     *       'posts/CategoryOne/markdown-one-2.md',
+     *       'posts/CategoryOne/markdown-one-3.md',
+     *       'posts/CategoryTwo/markdown-two-1.md',
+     *       'posts/CategoryTwo/markdown-two-2.md',
+     *       'posts/CategoryTwo/markdown-two-3.md'
+     *     ]
+     * }
+     */
+
+});
+```
+
+["Next JS routing for category and optional subcategory"](https://stackoverflow.com/questions/72940376/next-js-routing-for-category-and-optional-subcategory)
+`/[category]/[item].js`
+
+["Next.js nested dynamic folder routing"](https://stackoverflow.com/questions/65988686/next-js-nested-dynamic-folder-routing)
+
+
+

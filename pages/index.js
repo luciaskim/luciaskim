@@ -31,9 +31,9 @@ export default function Home({ allPostsData }) {
         </p>
         <section>
           <ul>
-            {allPostsData.map(({ id, publishedAt, title }) => (
+            {allPostsData.map(({ id, category, publishedAt, title }) => (
               <li key={id}>
-                <Link href={`/posts/${id}`}>{title}</Link>
+                <Link href={`/${category}/${id}`}>{title}</Link>
                 <br />
                 <small>
                   <Date dateString={publishedAt} />
@@ -74,7 +74,7 @@ export default function Home({ allPostsData }) {
         </div> */}
       </main>
 
-      <footer>
+      {/* <footer>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -83,7 +83,7 @@ export default function Home({ allPostsData }) {
           Powered by{' '}
           <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
         </a>
-      </footer>
+      </footer> */}
 
       <style jsx>{`
         main {
