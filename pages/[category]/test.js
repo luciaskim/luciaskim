@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Link from "next/link";
-import styles from '../styles/Home.module.css';
-import Date from "../components/date";
-import { getSortedPostsData } from "../lib/posts";
+import styles from '../../styles/Home.module.css';
+import Date from "../../components/date";
+import { getSortedPostsData } from "../../lib/posts";
 
 
 export const getStaticProps = async () => {
