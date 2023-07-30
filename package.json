@@ -11,9 +11,9 @@
     "esbuild": "^0.17.18",
     "gray-matter": "^4.0.3",
     "mdx-bundler": "^9.2.1",
-    "next": "latest",
+    "next": "^13.4.12",
     "next-mdx-remote": "^4.4.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

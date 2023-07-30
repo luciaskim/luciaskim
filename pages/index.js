@@ -19,7 +19,7 @@ export default function Home({ allPostsData }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Lucia's Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
